@@ -35,7 +35,7 @@ blue_sound.volume = 0.2
 yellow_sound.volume = 0.2
 wrong.volume = 0.1
 
-if (localStorage.getItem("highscore") == 0){
+if (localStorage.length == 0){
 	high_score_text.innerHTML = "High Score: " + 0;
 } else {
 	high_score = localStorage.getItem("highscore")
