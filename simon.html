@@ -1,0 +1,29 @@
+<html>
+  <head>
+    <link rel="stylesheet" type="text/css" href="simon.css">
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
+  </head>
+  <body>
+    <audio id="buttonSound"></audio>
+    <audio id="rightOrWrongSound"></audio>
+
+    <div id="game">
+      <div id="colorsContainer">
+        <div id="greenBox" onclick="colorClick('green')" class="colorBox"></div>
+        <div id="redBox" onclick="colorClick('red')" class="colorBox"></div>
+        <div id="yellowBox" onclick="colorClick('yellow')" class="colorBox"></div>
+        <div id="blueBox" onclick="colorClick('blue')" class="colorBox"></div>
+      </div>
+
+      <table id="menu">
+        <tr>
+          <td id="score"></td>
+          <td id="startButton" onclick="startGame()">Start Game</td>
+          <td id="highScore"></td>
+        </tr>
+      </table>
+    </div>
+
+    <script type="text/javascript" src="simon.js"></script>
+  </body>
+</html>
