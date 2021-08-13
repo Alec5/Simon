@@ -18,6 +18,7 @@ var unlitBlue = greenBox.style.backgroundColor;
 
 var colorSequence = [];
 var gameOver = true;
+var buttonsEnabled = false;
 var score = 0;
 var highScore = 0;
 var colorCount = 0;  // track how many colors have been entered each round
@@ -38,13 +39,17 @@ function startGame()
     colorSequence = [];
     score = 0;
     colorCount = 0;
-    toggleButtons(true);
+    toggleStartButton(false);
+		displayScore();
+		displayHighScore();
     startNewRound();
   }
 }
 
 function startNewRound()
 {
+	toggleButtons(false)
+
   // play sequence
   insertColor();
   flashSequence();
@@ -93,8 +98,8 @@ function flashColor(color)
 
 function colorClick(color)
 {
-  // prevent button interaction if game over
-  if (gameOver)
+  // prevent button interaction if buttons are disabled
+  if (!buttonsEnabled)
     return;
 
   // play error sound and end game if wrong
@@ -126,6 +131,7 @@ function checkRoundComplete()
   // play success animation
   else if (colorCount == colorSequence.length)
   {
+		toggleButtons(false);
     rightOrWrongSound.src = "audio/correct.wav";
     rightOrWrongSound.play();
     flashColor("green");
@@ -159,6 +165,10 @@ function flashNextColor(index)
     buttonSound.play();
     setTimeout(function() {flashNextColor(index + 1)}, 800);
   }
+	else
+	{
+		toggleButtons(true)		// turn on buttons when sequence finishes
+	}
 }
 
 function displayScore()
@@ -173,14 +183,13 @@ function displayHighScore()
 
 function toggleButtons(enabled)
 {
+	buttonsEnabled = enabled;
   if (enabled)  // turn on all colors, turn off start button
   {
     greenBox.style.cursor = "pointer";
     redBox.style.cursor = "pointer";
     yellowBox.style.cursor = "pointer";
     blueBox.style.cursor = "pointer";
-    startButton.style.cursor = "default";
-    startButton.style.backgroundColor = "#C5C5C5";
   }
   else          // turn off all colors, turn on start button
   {
@@ -188,15 +197,28 @@ function toggleButtons(enabled)
     redBox.style.cursor = "default";
     yellowBox.style.cursor = "default";
     blueBox.style.cursor = "default";
-    startButton.style.cursor = "pointer";
-    startButton.style.backgroundColor = "#DD99FF";
   }
+}
+
+function toggleStartButton(enabled)
+{
+	if (enabled)
+	{
+		startButton.style.cursor = "pointer";
+		startButton.style.backgroundColor = "#DD99FF";
+	}
+	else
+	{
+		startButton.style.cursor = "default";
+    startButton.style.backgroundColor = "#C5C5C5";
+	}
 }
 
 // reset game
 function endGame()
 {
   toggleButtons(false);
+	toggleStartButton(true);
 
   // save high score
   if (score > highScore)
